@@ -5,7 +5,7 @@ import tiktoken
 from dotenv import load_dotenv
 import chromadb
 from chromadb.utils import embedding_functions
-import shutil
+import streamlit as st
 
 # Load environment variables from .env file
 load_dotenv()
@@ -138,21 +138,46 @@ def clear_vector_db():
     print("Clearing vector database...")
     collection.clear()  # Clears all documents from the collection
 
-# Main loop for user interaction
-while True:
-    user_query = input("Please enter your question (or 'quit' to exit): ")
-    if user_query.lower() == 'quit':
-        break
+# Streamlit user interface (UI)
+st.title("Chat with GPT")
 
+# Check if session state exists for chat history; if not, initialize it
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+# Check if session state exists for 'something' (input state); if not, initialize it
+if 'something' not in st.session_state:
+    st.session_state.something = ''  # Used for storing the last user query submission
+
+# Function to display the chat in reverse order so new messages are at the bottom
+def display_chat():
+    for user_message, bot_response in reversed(st.session_state.chat_history):
+        st.markdown(f"**You**: {user_message}")
+        st.markdown(f"**GPT**: {bot_response}")
+
+# Function to clear user input
+def submit():
+    st.session_state.something = st.session_state.widget  # Store the input to 'something'
+    st.session_state.widget = ''  # Clear the input field
+
+# User input widget and clear after submission
+user_query = st.text_input("Ask a question:", key="widget", on_change=submit)
+
+# Display the last submitted query
+# st.write(f"Last submission: {st.session_state.something}")
+
+if st.session_state.something:  # Only proceed if there's a valid submission
     # Retrieve relevant documents based on the user query
-    relevant_docs = retrieve_relevant_chunks(user_query)
+    relevant_docs = retrieve_relevant_chunks(st.session_state.something)
     
-    # Generate and print the response from OpenAI based on the relevant documents
-    response = generate_response_with_chunking(user_query, relevant_docs)
+    # Generate and store the response from OpenAI based on the relevant documents
+    response = generate_response_with_chunking(st.session_state.something, relevant_docs)
     
     if response:
-        print("Response from GPT:")
-        print(response)
-    print("\n" + "-"*50 + "\n")
-
-print("Thank you for using the system. Goodbye!")
+        # Store the user query and bot response in session state (persistent memory)
+        st.session_state.chat_history.append((st.session_state.something, response))
+        
+        # Redisplay the updated chat history
+        display_chat()
+    else:
+        st.write("Sorry, I couldn't get an answer. Please try again later.")
