@@ -5,6 +5,7 @@ import tiktoken
 from dotenv import load_dotenv
 import chromadb
 from chromadb.utils import embedding_functions
+import shutil
 
 # Load environment variables from .env file
 load_dotenv()
@@ -13,11 +14,11 @@ load_dotenv()
 openai.api_key = os.getenv("OPEN-API-KEY")
 
 # Initialize Chroma client for the vector database
-db_path = "W:/Projects/python/RBC/NUMBA1/vector_db"
-chroma_client = chromadb.PersistentClient(path=db_path)
+db_path = "W:/Projects/python/RBC/NUMBA1/vector_db"  # Ensure this path is persistent
+chroma_client = chromadb.PersistentClient(path=db_path)  # Use PersistentClient for persistent DB
 
 # Create or get the collection in the vector database
-collection = chroma_client.get_or_create_collection("document_embeddings")
+collection = chroma_client.get_or_create_collection("document_embeddings")  # Ensure the same collection name is used
 
 # Function to calculate the number of tokens in a text
 def count_tokens(text, model="gpt-3.5"):
@@ -132,6 +133,10 @@ def generate_response_with_chunking(query, relevant_docs, model="gpt-3.5-turbo",
         print(f"Error with OpenAI request: {e}")
         return None
 
+# Option to clear vector database (use only if you want to reset the DB)
+def clear_vector_db():
+    print("Clearing vector database...")
+    collection.clear()  # Clears all documents from the collection
 
 # Main loop for user interaction
 while True:
