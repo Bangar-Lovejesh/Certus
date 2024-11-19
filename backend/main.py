@@ -116,7 +116,7 @@ def generate_response_with_chunking(query, relevant_docs, model="gpt-3.5-turbo",
         chunks.extend(split_text_into_chunks(doc, model, max_tokens))
     
     # Create the prompt with the chunks (limit the number of chunks to avoid too many tokens)
-    context = "\n".join(f"- {chunk}" for chunk in chunks[:3])  # Limit to 3 chunks as an example
+    context = "\n".join(f"- {chunk}" for chunk in chunks[:5])  # Limit to 3 chunks as an example
     prompt = f"Context:\n{context}\n\nQuestion: {query}\nAnswer:"
     
     try:
@@ -139,7 +139,7 @@ def clear_vector_db():
     collection.clear()  # Clears all documents from the collection
 
 # Streamlit user interface (UI)
-st.title("Chat with GPT")
+st.title("NUMBA1 team")
 
 # Check if session state exists for chat history; if not, initialize it
 if "chat_history" not in st.session_state:
@@ -153,7 +153,7 @@ if 'something' not in st.session_state:
 def display_chat():
     for user_message, bot_response in reversed(st.session_state.chat_history):
         st.markdown(f"**You**: {user_message}")
-        st.markdown(f"**GPT**: {bot_response}")
+        st.markdown(f"**helper**: {bot_response}")
 
 # Function to clear user input
 def submit():
