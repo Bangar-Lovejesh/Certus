@@ -1,0 +1,65 @@
+{
+    "applicants": [
+      {
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 35,
+        "marital_status": "Married",
+        "employment": "Software Engineer",
+        "income": 120000,
+        "household_income": 180000,
+        "number_of_kids": 2,
+        "current_assets": ["Stocks: $50,000", "401(k): $100,000"],
+        "liabilities": ["Car Loan: $20,000", "Student Loans: $30,000"]
+      },
+      {
+        "first_name": "Sarah",
+        "last_name": "Johnson",
+        "age": 29,
+        "marital_status": "Single",
+        "employment": "Marketing Manager",
+        "income": 90000,
+        "household_income": 90000,
+        "number_of_kids": 0,
+        "current_assets": ["Savings: $40,000", "Stocks: $25,000"],
+        "liabilities": ["Car Loan: $15,000"]
+      },
+      {
+        "first_name": "Michael",
+        "last_name": "Smith",
+        "age": 42,
+        "marital_status": "Married",
+        "employment": "Doctor",
+        "income": 200000,
+        "household_income": 280000,
+        "number_of_kids": 3,
+        "current_assets": ["Rental Property: $500,000", "Stocks: $75,000"],
+        "liabilities": ["Mortgage: $400,000", "Car Loan: $35,000"]
+      },
+      {
+        "first_name": "Emily",
+        "last_name": "Williams",
+        "age": 31,
+        "marital_status": "Single",
+        "employment": "Freelance Graphic Designer",
+        "income": 75000,
+        "household_income": 75000,
+        "number_of_kids": 1,
+        "current_assets": ["Savings: $20,000"],
+        "liabilities": ["Student Loans: $40,000"]
+      },
+      {
+        "first_name": "David",
+        "last_name": "Brown",
+        "age": 38,
+        "marital_status": "Married",
+        "employment": "Construction Manager",
+        "income": 110000,
+        "household_income": 160000,
+        "number_of_kids": 2,
+        "current_assets": ["Stocks: $30,000", "401(k): $120,000"],
+        "liabilities": ["Car Loan: $25,000", "Personal Loan: $10,000"]
+      }
+    ]
+  }
+  
