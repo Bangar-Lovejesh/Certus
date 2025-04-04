@@ -1,235 +1,194 @@
-# RBC Financial Advisor
+# RBC Mortgage & Creditor Insurance Advisor Assistant
 
-An AI-powered financial advisory application that helps RBC clients make informed decisions about mortgages, insurance, and other financial products through personalized simulations, document analysis, and conversational assistance.
-
-![RBC Logo](https://www.rbcroyalbank.com/dvl/v1.0/assets/images/logos/rbc-logo-shield.svg)
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Technical Architecture](#technical-architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Document Processing](#document-processing)
-- [Simulation Engine](#simulation-engine)
-- [API Integration](#api-integration)
-- [Contributing](#contributing)
-- [License](#license)
+A comprehensive AI-powered virtual assistant designed to assist RBC financial advisors in providing personalized mortgage and creditor insurance advice to clients. The application uses a Streamlit interface with ChromaDB vector search capabilities to deliver context-aware recommendations and intelligent alerts.
 
 ## Overview
 
-The RBC Financial Advisor is a Streamlit-based web application that leverages AI to provide personalized financial guidance. It combines document analysis, natural language processing, and financial simulation to help users understand their options across mortgages, insurance products, and other financial services offered by RBC.
+This tool helps RBC advisors:
+- Access AI-powered assistance for mortgage and insurance advice through a chatbot interface
+- Collect and manage client information through an intuitive interface
+- Get context-aware recommendations based on the current screen
+- Receive intelligent alerts for cross-selling opportunities
+- Simulate financial impacts of life events on clients
+- Calculate mortgage payments and insurance premiums
+- Access RBC product information through vector search
 
-## Features
+## Table of Contents
 
-### 💬 Financial Assistant (Chatbot)
-
-- **Conversational Interface**: Engage in natural dialogue about financial questions
-- **Document-Grounded Responses**: Get accurate answers based on official RBC documentation
-- **Context-Aware**: The assistant maintains conversation history to provide coherent responses
-- **Semantic Search**: Uses vector embeddings to find the most relevant information across various financial products
-
-### 📝 Personalized Assessment
-
-- **Customer Data Collection**: Input personal and financial information through an intuitive form
-- **Scenario Generation**: Receive tailored financial scenarios based on your profile
-- **Risk Assessment**: Understand potential risks and benefits of different financial options
-- **Recommendation Engine**: Get personalized recommendations across RBC's product offerings
-
-### 📄 Document Library
-
-- **PDF Viewer**: Browse and read financial documents directly in the application
-- **Document Management**: Upload, view, and organize documents related to various financial products
-- **Knowledge Base**: Access a collection of RBC resources covering mortgages, insurance, and other financial services
-- **Search Functionality**: Find specific information across all uploaded documents
-
-### 🔮 Scenario Simulator
-
-- **Life Event Simulations**: Explore how major life events might affect your finances:
-  - Job loss
-  - Having children
-  - Critical illness
-  - Interest rate changes
-  - Travel emergencies
-- **Insurance Simulations**: Understand how different insurance products protect you in various scenarios:
-  - HomeProtector mortgage insurance
-  - Critical illness insurance
-  - Life insurance
-  - Travel insurance
-- **Custom Scenarios**: Create and analyze your own "what-if" situations
-- **Financial Impact Analysis**: See how different scenarios affect your payments and overall finances
-- **Personalized Results**: All simulations are tailored to your specific financial profile
-
-## Insurance Products
-
-The application provides detailed information and simulations for various RBC insurance products:
-
-### HomeProtector Insurance
-- **Life Insurance**: Covers mortgage balance in case of death
-- **Critical Illness Insurance**: Covers mortgage if diagnosed with covered illnesses
-- **Disability Insurance**: Helps with mortgage payments during disability periods
-- **Prior Coverage Recognition**: Information on transferring existing coverage
-
-### Travel Insurance
-- **Emergency Medical Coverage**: Information on coverage during travel
-- **Trip Cancellation/Interruption**: Simulation of travel disruption scenarios
-- **Coverage Limits**: Details on maximum coverage amounts
-- **Eligibility Requirements**: Information on who qualifies for coverage
-
-### Critical Illness Insurance
-- **Covered Conditions**: Information on which illnesses are covered
-- **Benefit Calculation**: How benefits are determined and paid
-- **Premium Rates**: Age-based premium calculations
-- **Exclusions**: Understanding what isn't covered
-
-## Technical Architecture
-
-The application is built on a robust technical foundation:
-
-### Vector Database (ChromaDB)
-- Stores document embeddings for semantic search
-- Enables efficient retrieval of relevant information
-- Maintains document metadata for traceability
-
-### Embedding Engine
-- Supports both local and cloud-based embeddings
-- Uses SentenceTransformer for local processing
-- OpenAI embedding API integration for cloud processing
-
-### Document Processing Pipeline
-1. PDF upload and storage
-2. Text extraction using PyPDF2
-3. Text chunking and tokenization
-4. Vector embedding generation
-5. Storage in ChromaDB
-
-### AI Integration
-- OpenAI GPT models for natural language generation
-- Context window management for handling long documents
-- Temperature and token control for appropriate responses
-
-### User Interface
-- Streamlit-based responsive web interface
-- RBC-branded styling and layout
-- Tab-based navigation for intuitive user experience
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+- [Features](#features)
+- [Usage Guide](#usage-guide)
+- [Data Privacy](#data-privacy)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/your-repo/rbc-financial-advisor.git
-cd rbc-financial-advisor
+### Prerequisites
 
-# Install dependencies
-pip install -r requirements.txt
+- Python 3.8 or higher
+- pip (Python package manager)
 
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your OpenAI API key
-```
+### Setup
 
-## Usage
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-# Run the Streamlit app
-streamlit run backend/app.py
-```
+2. Start the FastAPI server:
+   ```bash
+   cd backend
+   uvicorn api:app --reload
+   ```
 
-The application will be available at http://localhost:8501
+3. Access the application:
+   Open your browser and navigate to `http://localhost:8000`
 
-## Configuration
+### API Documentation
 
-### Environment Variables
+Once the server is running, you can access the API documentation at:
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+   ```
 
-Create a `.env` file with the following variables:
+## Getting Started
 
-```
-OPENAI_API_KEY=your_openai_api_key
-USE_LOCAL_EMBEDDINGS=True  # Set to False to use OpenAI embeddings
-```
+1. Start the application:
+   ```bash
+   streamlit run backend/app.py
+   ```
 
-### Vector Database Configuration
+2. The app will open in your default web browser at `http://localhost:8501`
 
-The application uses a persistent ChromaDB instance stored in the `vector_db` directory. You can modify the database path in `app.py`:
+## Features
 
-```python
-DB_PATH = "vector_db"  # Change this to your preferred location
-```
+### Client Profile
+Collect and store client information to generate personalized advice:
+- Personal details
+- Financial information
+- Risk tolerance
+- Family composition
 
-## Document Processing
+### WIPT Calculator (What If Payment Tool)
+Calculate how different interest rates affect mortgage payments:
+- Compare current vs. potential future rates
+- Visualize payment breakdowns
+- Analyze amortization scenarios
 
-### Supported Document Types
-- PDF documents (.pdf)
+### Scenario Simulator
+Model the financial impact of life events:
+- Job loss
+- Critical illness
+- Disability
+- Death of a family member
 
-### Document Chunking
-Documents are automatically split into chunks of approximately 1024 tokens to optimize for retrieval and context window limitations.
+### Insurance Options
+Recommend appropriate insurance products based on client profile:
+- Life insurance
+- Disability coverage
+- Critical illness protection
+- Job loss protection
 
-### Adding New Documents
-1. Use the file uploader in the sidebar
-2. Click "Process Document"
-3. The document will be processed, chunked, and added to the vector database
+### Advisor Assistant
+AI-powered chatbot providing:
+- Product information
+- Policy details
+- Recommendation rationales
+- Client-friendly explanations
 
-## Simulation Engine
+## Usage Guide
 
-The simulation engine creates personalized scenarios based on:
+### Navigation
+Use the sidebar to navigate between different sections of the app.
 
-1. **User Profile**: Personal and financial information
-2. **Selected Scenario**: Predefined or custom situation
-3. **Document Context**: Relevant information from financial documents
+### Client Profile
 
-### Simulation Types
-- Job loss impact
-- New child financial adjustments
-- Critical illness scenarios
-- Interest rate fluctuations
-- Travel emergency situations
-- Insurance claim scenarios
-- Custom user-defined scenarios
+1. Enter the client's personal information:
+   - Name, age, contact information
+   - Occupation and income details
+   - Current mortgage information
+   - Family situation
 
-### Profile Format
-User profiles are stored in JSON format with the following structure:
+2. Example input:
+   ```
+   Full Name: Sarah Johnson
+   Age: 35
+   Email: sarah.johnson@example.com
+   Phone: 416-555-7890
+   Occupation: Software Developer
+   Annual Income: $95,000
+   Current Mortgage Balance: $450,000
+   Property Value: $650,000
+   Dependents: 2
+   Risk Tolerance: Moderate
+   ```
 
-```json
-{
-  "applicants": [
-    {
-      "first_name": "John",
-      "last_name": "Doe",
-      "age": 35,
-      "marital_status": "Married",
-      "employment": "Software Engineer",
-      "income": 120000,
-      "household_income": 180000,
-      "number_of_kids": 2,
-      "current_assets": ["Stocks: $50,000", "401(k): $100,000"],
-      "liabilities": ["Car Loan: $20,000", "Student Loans: $30,000"]
-    }
-  ]
-}
-```
+### WIPT Calculator
 
-## API Integration
+1. Enter mortgage details:
+   - Principal amount
+   - Amortization period
+   - Term length
+   - Current interest rate
+   - Payment frequency
 
-The application integrates with the following APIs:
+2. Add alternative rate scenarios to compare payments
 
-### OpenAI API
-- Used for text generation and embeddings
-- Requires an API key set in the `.env` file
-- Controls for temperature and max tokens
+3. Example input:
+   ```
+   Mortgage Amount: $450,000
+   Amortization Period: 25 years
+   Term: 5 years
+   Current Interest Rate: 4.5%
+   Payment Frequency: Monthly
+   Alternative Rate Scenario: 5.5%
+   ```
 
-### SentenceTransformer
-- Local embedding generation
-- Uses the "all-MiniLM-L6-v2" model by default
-- No API key required
+### Scenario Simulator
 
-## Contributing
+1. Select life events to simulate:
+   - Duration of potential job loss
+   - Probability of critical illness
+   - Potential disability period
+   - Impact of primary earner's death
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+2. View the financial impact analysis and recommended protection options
 
-## License
+### Insurance Options
 
-This project is licensed under the terms of the MIT license.
+1. Select the types of insurance coverage to explore:
+   - Life insurance
+   - Disability insurance
+   - Critical illness coverage
+   - Job loss protection
 
----
+2. Review personalized recommendations based on the client profile
+
+### Advisor Assistant
+
+1. Type questions about RBC products or policies in the chat interface
+2. Receive detailed, client-friendly responses you can share directly
+3. Example questions:
+   ```
+   "What is the difference between term and whole life insurance?"
+   "How does the RBC HomeProtector insurance work?"
+   "What happens to mortgage insurance if my client sells their home?"
+   "What are the eligibility requirements for disability coverage?"
+   ```
+
+## Data Privacy
+
+- All client data is processed locally and not stored permanently
+- No personal information is transmitted to external servers
+- Session data is cleared when the application is closed
+
+## Troubleshooting
+
+### Common Issues
+
+- **Application won't start**: Ensure all dependencies are installed and Python version is compatible
+- **Visualization errors**: Check that input data is in the correct format
+- **Rerun errors**: If you encounter `st.experimental_rerun()` errors, update to `st.rerun()` in the code
