@@ -1,5 +1,5 @@
 """
-RBC Mortgage & Creditor Insurance Advisor Assistant
+Certus - Mortgage & Creditor Insurance Advisor Assistant
 Main Streamlit Application
 """
 import os
@@ -13,7 +13,8 @@ import uuid
 
 # Import local modules
 from config import (
-    APP_TITLE, 
+    APP_TITLE,
+    APP_SUBTITLE,
     APP_ICON, 
     PRIMARY_COLOR, 
     SECONDARY_COLOR, 
@@ -109,8 +110,8 @@ if "protection_discussion_tracker" not in st.session_state:
 if "conversation_guide" not in st.session_state:
     st.session_state.conversation_guide = None
 
-def apply_rbc_styling():
-    """Apply RBC brand styling to the Streamlit app"""
+def apply_certus_styling():
+    """Apply Certus brand styling to the Streamlit app"""
     # Custom CSS for RBC styling
     st.markdown(f"""
     <style>
@@ -224,10 +225,11 @@ def apply_rbc_styling():
             color: white !important;
         }}
         
-        /* Custom RBC logo header */
+        /* Custom Certus logo header */
         .rbc-header {{
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             padding: 10px;
             background-color: #0A0A0A;
             border-bottom: 2px solid var(--primary-color);
@@ -240,19 +242,27 @@ def apply_rbc_styling():
         
         .rbc-title {{
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
+        }}
+        
+        .rbc-subtitle {{
+            color: #cccccc;
+            font-size: 1rem;
+            margin-left: 15px;
+            align-self: flex-end;
         }}
     </style>
     """, unsafe_allow_html=True)
 
-    # Create RBC header with logo
+    # Create Certus header with logo
     if os.path.exists("logo.png"):
         logo_base64 = get_base64_encoded_image("logo.png")
         st.markdown(f"""
         <div class="rbc-header">
             <img src="data:image/png;base64,{logo_base64}" class="rbc-logo">
             <div class="rbc-title">{APP_TITLE}</div>
+            <div class="rbc-subtitle">{APP_SUBTITLE}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1342,11 +1352,11 @@ def scenario_simulator():
 
 def main():
     """Main function to run the Streamlit app"""
-    # Apply RBC styling
-    apply_rbc_styling()
+    # Apply Certus styling
+    apply_certus_styling()
     
     # Sidebar navigation
-    st.sidebar.title("Navigation")
+    st.sidebar.title("Certus Navigation")
     page = st.sidebar.radio(
         "Select a Page",
         options=[

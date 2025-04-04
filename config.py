@@ -26,10 +26,11 @@ MAX_TOKENS = 1000
 MAX_CONTEXT_LENGTH = 3000
 
 # UI settings
-APP_TITLE = "RBC Mortgage & Creditor Insurance Advisor Assistant"
+APP_TITLE = "Certus"
+APP_SUBTITLE = "Mortgage & Creditor Insurance Advisor Assistant"
 APP_ICON = "logo.png"
-PRIMARY_COLOR = "#0042B2"  # RBC Blue
-SECONDARY_COLOR = "#FEDF01"  # RBC Yellow
+PRIMARY_COLOR = "#0042B2"  # Primary Blue
+SECONDARY_COLOR = "#FEDF01"  # Secondary Yellow
 TEXT_COLOR = "#FFFFFF"
 BACKGROUND_COLOR = "#0A0A0A"
 

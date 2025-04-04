@@ -1,0 +1,6 @@
+[server]
+fileWatcherType = "poll"
+
+[runner]
+# Add modules to ignore during the file watching process
+moduleExcludePaths = ["torch"]

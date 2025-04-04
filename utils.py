@@ -4,7 +4,7 @@ Utility functions for the RBC Mortgage & Creditor Insurance Advisor Assistant
 import os
 import re
 import base64
-import tiktoken
+# Temporarily removed tiktoken due to installation issues
 import PyPDF2
 from sentence_transformers import SentenceTransformer
 import chromadb
@@ -27,12 +27,32 @@ openai.api_key = OPENAI_API_KEY
 model = SentenceTransformer(EMBEDDING_MODEL)
 
 # Initialize ChromaDB client
-client = chromadb.PersistentClient(path=str(VECTOR_DB_PATH))
+try:
+    # Try the newer API first
+    client = chromadb.Client(chromadb.Settings(persist_directory=str(VECTOR_DB_PATH)))
+except Exception as e:
+    try:
+        # Fall back to older API if available
+        client = chromadb.PersistentClient(path=str(VECTOR_DB_PATH))
+    except Exception as e2:
+        print(f"Error initializing ChromaDB: {e2}")
+        # Create a minimal client that won't crash but won't work either
+        # At least the app will start
+        class DummyClient:
+            def get_collection(self, name):
+                raise Exception("ChromaDB not properly initialized")
+            def create_collection(self, name):
+                raise Exception("ChromaDB not properly initialized")
+        client = DummyClient()
 
 def count_tokens(text):
-    """Count the number of tokens in a text"""
-    encoder = tiktoken.get_encoding("cl100k_base")
-    return len(encoder.encode(text))
+    """Count the number of tokens in a text
+    
+    This is a simplified version that doesn't require tiktoken.
+    It uses a simple approximation based on whitespace and punctuation.
+    """
+    # Simple approximation: 1 token ~= 4 characters in English
+    return len(text) // 4
 
 def split_text_into_chunks(text, max_tokens=500):
     """Split text into chunks of max_tokens"""
@@ -241,16 +261,32 @@ Question: {query}
 """
 
     try:
-        response = openai.ChatCompletion.create(
-            model=DEFAULT_MODEL,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=DEFAULT_TEMPERATURE,
-            max_tokens=MAX_TOKENS
-        )
-        return response.choices[0].message.content.strip()
+        # Try with OpenAI < 1.0.0 API format first
+        try:
+            response = openai.ChatCompletion.create(
+                model=DEFAULT_MODEL,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=DEFAULT_TEMPERATURE,
+                max_tokens=MAX_TOKENS
+            )
+            return response.choices[0].message.content.strip()
+        except (AttributeError, TypeError):
+            # Fall back to OpenAI >= 1.0.0 API format
+            from openai import OpenAI
+            client = OpenAI(api_key=OPENAI_API_KEY)
+            response = client.chat.completions.create(
+                model=DEFAULT_MODEL,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=DEFAULT_TEMPERATURE,
+                max_tokens=MAX_TOKENS
+            )
+            return response.choices[0].message.content.strip()
     except Exception as e:
         print(f"Error with OpenAI API: {e}")
         return "I'm having trouble generating a response right now. Please try again later."

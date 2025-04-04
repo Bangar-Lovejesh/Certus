@@ -1,10 +1,17 @@
 .env
-.venv
+venv*
 vector_db
 .chroma
+# Python cache files
 __pycache__/
+**/__pycache__/
 *.py[cod]
+**/*.py[cod]
 *$py.class
+**/*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
 
 # Presentation materials
 *presentation*.md

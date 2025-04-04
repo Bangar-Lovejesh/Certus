@@ -1,10 +1,10 @@
-# RBC Mortgage & Creditor Insurance Advisor Assistant
+# Certus
 
-An AI-powered virtual assistant designed to assist RBC mortgage specialists and advisors in providing personalized mortgage and creditor insurance advice to clients. The application combines a modern Streamlit UI with powerful backend services including ChromaDB for vector search and OpenAI for natural language processing.
+An AI-powered virtual assistant designed to assist mortgage specialists and advisors in providing personalized mortgage and creditor insurance advice to clients. The application combines a modern Streamlit UI with powerful backend services including ChromaDB for vector search and OpenAI for natural language processing.
 
 ## Overview
 
-This tool helps RBC advisors:
+This tool helps financial advisors:
 - Access AI-powered assistance for mortgage and insurance advice through a sophisticated chatbot interface
 - Collect and manage client profile information through an intuitive, streamlined interface
 - Calculate and visualize mortgage payments with the interactive WIPT (What If Payment Tool) calculator
@@ -12,7 +12,7 @@ This tool helps RBC advisors:
 - Simulate the financial impacts of life events on clients (job loss, disability, critical illness, death)
 - Receive context-aware advisor alerts for timely cross-selling opportunities
 - Track client mortgage journeys with visual timeline representations
-- Access RBC product information through vector search powered by ChromaDB and sentence transformers
+- Access product information through vector search powered by ChromaDB and sentence transformers
 - Manage and search product documentation with semantic search capabilities
 
 ## Table of Contents
@@ -164,7 +164,7 @@ Data-driven insurance product recommendations:
 
 ### AI Advisor Assistant
 Advanced AI-powered chatbot with specialized knowledge:
-- Semantic search across RBC product documentation
+- Semantic search across product documentation
 - Natural language answers to complex insurance and mortgage questions
 - Product comparison and explanation capabilities
 - Context-aware responses that consider client profile information
@@ -310,14 +310,14 @@ Use the sidebar to navigate between different sections of the app. The main navi
 
 1. Navigate to the AI Advisor Assistant section
 
-2. Type specific questions about RBC products or policies in the chat interface
+2. Type specific questions about financial products or policies in the chat interface
 
 3. The AI will search the knowledge base and provide detailed responses
 
 4. Example questions to ask:
    ```
    "What is the difference between term and whole life insurance?"
-   "How does the RBC HomeProtector insurance work?"
+   "How does the HomeProtector insurance work?"
    "What happens to mortgage insurance if my client sells their home?"
    "What are the eligibility requirements for disability coverage?"
    "How is the premium calculated for critical illness insurance?"
@@ -331,7 +331,7 @@ Use the sidebar to navigate between different sections of the app. The main navi
 
 1. Navigate to the Document Management section
 
-2. Upload new PDF documents about RBC products:
+2. Upload new PDF documents about financial products:
    - Click "Upload Document"
    - Select a PDF file from your computer
    - The document will be processed, chunked, and added to the vector database
@@ -355,7 +355,7 @@ The application can be extended to integrate with external client management sys
 
 To enhance the AI Assistant's knowledge:
 
-1. Prepare additional PDF documents with RBC product information
+1. Prepare additional PDF documents with financial product information
 2. Use the Document Management interface to upload and process these documents
 3. The system will automatically extract text, create chunks, and generate embeddings
 4. New knowledge will be immediately available through the AI Assistant interface
@@ -384,7 +384,7 @@ To create additional simulation scenarios:
 ├── config.py              # Application configuration
 ├── docs/                  # Document storage
 │   └── home_protector_creditor.pdf # Sample document
-├── logo.png               # Application logo
+├── logo.png               # Certus application logo
 ├── models.py              # Data models using Pydantic
 ├── profile.json           # Sample client profile
 ├── requirements.txt       # Dependencies
