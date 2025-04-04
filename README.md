@@ -1,19 +1,19 @@
 # Certus
 
-An AI-powered virtual assistant designed to assist mortgage specialists and advisors in providing personalized mortgage and creditor insurance advice to clients. The application combines a modern Streamlit UI with powerful backend services including ChromaDB for vector search and OpenAI for natural language processing.
+Certus is an AI-powered virtual assistant designed to assist mortgage specialists and advisors in providing personalized mortgage and creditor insurance advice to clients. Built with Streamlit, the application combines a modern UI with powerful backend services including ChromaDB for vector search and OpenAI for natural language processing.
 
 ## Overview
 
-This tool helps financial advisors:
-- Access AI-powered assistance for mortgage and insurance advice through a sophisticated chatbot interface
-- Collect and manage client profile information through an intuitive, streamlined interface
-- Calculate and visualize mortgage payments with the interactive WIPT (What If Payment Tool) calculator
-- Generate personalized insurance recommendations based on client profiles and risk assessments
-- Simulate the financial impacts of life events on clients (job loss, disability, critical illness, death)
-- Receive context-aware advisor alerts for timely cross-selling opportunities
-- Track client mortgage journeys with visual timeline representations
-- Access product information through vector search powered by ChromaDB and sentence transformers
-- Manage and search product documentation with semantic search capabilities
+Certus empowers financial advisors to:
+- Provide AI-powered mortgage and insurance advice through an intelligent chatbot interface
+- Manage comprehensive client profiles with an intuitive, streamlined interface
+- Calculate and visualize mortgage scenarios with the interactive WIPT (What If Payment Tool)
+- Generate data-driven insurance recommendations based on client risk profiles
+- Model financial impacts of critical life events (job loss, disability, illness, death)
+- Receive context-aware alerts for timely cross-selling opportunities
+- Track mortgage application journeys with visual timeline representations
+- Access product information through semantic search powered by ChromaDB
+- Manage and search product documentation with advanced AI capabilities
 
 ## Table of Contents
 
@@ -45,11 +45,11 @@ This tool helps financial advisors:
 
 2. Create and activate a virtual environment (recommended):
    ```bash
-   python -m venv .venv
+   python -m venv venv
    # On Windows
-   .venv\Scripts\activate
+   venv\Scripts\activate
    # On macOS/Linux
-   source .venv/bin/activate
+   source venv/bin/activate
    ```
 
 3. Install dependencies:
@@ -70,7 +70,7 @@ This tool helps financial advisors:
      export OPENAI_API_KEY=your-api-key-here
      ```
 
-5. Ensure the vector database directory is properly set up (will be created automatically on first run if it doesn't exist)
+5. The vector database directory will be created automatically on first run
 
 ## Getting Started
 
@@ -81,121 +81,121 @@ This tool helps financial advisors:
 
 2. The app will open in your default web browser at `http://localhost:8501`
 
-3. Navigate through the sidebar to access different features:
-   - AI Advisor Assistant (chatbot)
-   - Client Profile
-   - Mortgage Journey Tracker
-   - WIPT Calculator
-   - Insurance Recommendations
-   - Scenario Simulator
-   - Document Management
+3. Navigate through the sidebar to access the following features:
+   - **AI Advisor Assistant**: Get AI-powered answers to mortgage and insurance questions
+   - **Client Profile**: Create and manage client information
+   - **Mortgage Journey Tracker**: Track application progress and identify protection opportunities
+   - **WIPT Calculator**: Calculate and visualize mortgage payment scenarios
+   - **Insurance Recommendations**: View personalized coverage suggestions
+   - **Scenario Simulator**: Model financial impacts of life events
+   - **Document Management**: Upload and search product documentation
 
-4. Start by creating a client profile, then explore the mortgage journey tracker, payment calculator, and scenario simulators to provide comprehensive advice to clients
+4. Begin by creating a client profile, then use other tools to provide comprehensive financial advice
 
 ## Technical Architecture
 
-The application follows a modular architecture with clear separation of concerns:
+Certus follows a modular architecture with clear separation of concerns:
 
 ### Frontend Layer
-- **Streamlit UI**: Provides an interactive web interface built using Streamlit 1.25.0
-- **Plotly Charts**: Generates interactive data visualizations for financial simulations and journey tracking
+- **Streamlit UI**: Interactive web interface built with Streamlit 1.25.0
+- **Plotly Charts**: Dynamic data visualizations for financial simulations and journey tracking
 
 ### Core Services Layer
-- **Client Profile Management**: Stores and manages client information using Pydantic models
-- **Mortgage Journey Tracking**: Implements a state machine to track mortgage application progress
-- **WIPT Calculator Engine**: Performs complex mortgage calculations with various payment scenarios
-- **Scenario Simulation Engine**: Models financial impacts of different life events
-- **Insurance Recommendation System**: Generates personalized coverage recommendations based on client risk profile
-- **Context-aware Alert System**: Delivers targeted advisor prompts based on client state and journey stage
+- **Client Profile Management**: Client data handling with Pydantic models
+- **Mortgage Journey Tracking**: State machine for tracking application progress
+- **WIPT Calculator Engine**: Mortgage calculation engine with multiple payment scenarios
+- **Scenario Simulation Engine**: Financial impact modeling for life events
+- **Insurance Recommendation System**: Data-driven coverage suggestions based on risk profiles
+- **Context-aware Alert System**: Targeted advisor prompts based on client state
 
 ### AI and Knowledge Layer
-- **Vector Database**: ChromaDB for efficient storage and retrieval of embeddings
-- **Sentence Transformers**: Creates embeddings from text using the all-MiniLM-L6-v2 model
-- **OpenAI Integration**: Leverages GPT models to generate natural language responses
-- **Document Processing**: Extracts and chunks text from PDF documents using PyPDF2
+- **Vector Database**: ChromaDB for efficient storage and retrieval of document embeddings
+- **Sentence Transformers**: Text embedding generation using all-MiniLM-L6-v2 model
+- **OpenAI Integration**: GPT models for natural language understanding and generation
+- **Document Processing**: PDF text extraction and chunking with PyPDF2
 
 ### Data Flow
-1. Client data is collected through the UI and stored in session state
-2. Data is processed by various calculation and simulation engines
-3. Results are presented as visualizations and recommendations
-4. Advisor queries are processed by the vector search and AI response system
+1. Client data collected through UI and stored in Streamlit session state
+2. Data processed by calculation and simulation engines
+3. Results presented as interactive visualizations and recommendations
+4. Advisor queries processed by vector search and AI response system
 
 ## Features
 
 ### Client Profile Management
-Comprehensive client information collection and risk assessment:
+Comprehensive client information collection with integrated risk assessment:
 - Personal details (name, age, contact information)
-- Financial information (income, job stability, savings)
-- Mortgage details (principal, term, rate, amortization)
+- Financial information (income, employment stability, savings)
+- Mortgage details (principal, term, interest rate, amortization period)
 - Family composition and dependent information
-- Health factors and risk tolerance assessment
+- Health factors and risk tolerance evaluation
 
 ### Mortgage Journey Tracker
-Visualize and manage the client's progress through the mortgage process:
-- Track journey stages from initial inquiry to post-funding
-- Record and monitor protection discussion status
-- Identify optimal opportunities for creditor insurance discussions
-- Generate stage-specific conversation guides and talking points
-- Log important life events that may influence protection needs
+Interactive visualization and management of the mortgage application process:
+- Visual timeline from initial inquiry through post-funding stages
+- Protection discussion status tracking with automated reminders
+- Algorithmic identification of optimal insurance conversation opportunities
+- Dynamic conversation guides tailored to current journey stage
+- Life event logging with automatic protection need reassessment
 
 ### WIPT Calculator (What If Payment Tool)
-Sophisticated mortgage payment simulation tool:
-- Calculate payments across different frequencies (weekly, biweekly, monthly)
-- Compare multiple interest rate scenarios side-by-side
-- Visualize payment breakdowns (principal vs. interest)
-- Analyze amortization scenarios with interactive charts
-- Project total interest costs over the mortgage term
+Advanced mortgage payment simulation and visualization tool:
+- Multi-frequency payment calculations (weekly, biweekly, monthly, semi-monthly)
+- Side-by-side comparison of multiple interest rate scenarios
+- Interactive payment breakdown charts showing principal vs. interest
+- Amortization analysis with dynamic visualization
+- Comprehensive interest cost projections over various terms
 
 ### Scenario Simulator
-Robust financial impact modeling for major life events:
-- Job loss simulator with EI benefit calculations and savings depletion projections
-- Disability scenario modeling with income reduction and medical expense impacts
-- Critical illness financial impact projections with recovery period analysis
-- Death scenario financial planning with family support gap calculations
-- Side-by-side comparison of scenarios with and without insurance protection
+Comprehensive financial impact modeling for critical life events:
+- **Job Loss**: EI benefit integration, savings depletion timeline, and monthly shortfall analysis
+- **Disability**: Income reduction modeling, medical expense impacts, and recovery timeline
+- **Critical Illness**: Financial impact projections with treatment cost analysis
+- **Death**: Surviving family financial gap analysis and support requirement calculations
+- All scenarios include side-by-side comparisons with and without insurance protection
 
 ### Insurance Recommendation Engine
-Data-driven insurance product recommendations:
-- Risk-based coverage amount calculations
-- Premium estimates based on client demographics and coverage amounts
-- Personalized recommendation rationales
-- Coverage prioritization based on identified financial vulnerabilities
-- Visual protection gap analysis
+Intelligent insurance product recommendation system:
+- Data-driven coverage calculations based on client risk profile
+- Personalized premium estimates using demographic and health factors
+- Clear recommendation rationales with client-specific benefits
+- Smart prioritization of coverage types based on vulnerability analysis
+- Interactive protection gap visualization and comparison
 
 ### AI Advisor Assistant
-Advanced AI-powered chatbot with specialized knowledge:
-- Semantic search across product documentation
-- Natural language answers to complex insurance and mortgage questions
-- Product comparison and explanation capabilities
-- Context-aware responses that consider client profile information
-- Objection handling assistance with templated responses
+Sophisticated AI-powered knowledge assistant:
+- ChromaDB-powered semantic search across product documentation
+- Natural language processing for complex mortgage and insurance queries
+- Detailed product comparison and feature explanation capabilities
+- Context-aware responses incorporating client profile information
+- Comprehensive objection handling with evidence-based counterpoints
 
 ### Document Management System
-Comprehensive document processing and knowledge management:
-- PDF document uploading and processing
-- Automatic text extraction and chunking
-- Vector embedding for semantic search capabilities
-- In-app document viewing and navigation
-- Knowledge base expansion through new document additions
+Integrated document processing and knowledge management platform:
+- Streamlined PDF document uploading and processing
+- Intelligent text extraction with automatic chunking
+- Vector embedding generation for semantic search functionality
+- Built-in document viewer with navigation controls
+- Expandable knowledge base through continuous document additions
 
 ## Usage Guide
 
-### Navigation
-Use the sidebar to navigate between different sections of the app. The main navigation flow typically follows:
+### Recommended Workflow
+The application is designed with an intuitive workflow that guides advisors through the client consultation process:
 
-1. Client Profile → 2. Mortgage Journey Tracker → 3. WIPT Calculator → 4. Insurance Recommendations → 5. Scenario Simulator
+1. **Client Profile** → 2. **Mortgage Journey Tracker** → 3. **WIPT Calculator** → 4. **Insurance Recommendations** → 5. **Scenario Simulator**
 
 ### Client Profile
 
-1. Enter the client's personal and financial information:
-   - Name, age, contact information
-   - Occupation and income details
-   - Current mortgage information and property value
-   - Family situation and number of dependents
-   - Health factors (smoker status, pre-existing conditions)
+1. Complete the client information form with relevant details:
+   - Personal information (name, age, contact details)
+   - Employment information (occupation, income, job stability)
+   - Mortgage details (current balance, property value)
+   - Family composition (marital status, dependents)
+   - Health factors (smoker status, medical conditions)
    - Risk tolerance assessment
 
-2. Example input:
+2. Sample client profile:
    ```
    Full Name: Sarah Johnson
    Age: 35
@@ -212,234 +212,248 @@ Use the sidebar to navigate between different sections of the app. The main navi
    Risk Tolerance: Moderate
    ```
 
-3. Save the profile to make it available throughout the application
+3. Click 'Save Profile' to store the information in the session state for use across all application modules
 
 ### Mortgage Journey Tracker
 
-1. Set up the mortgage journey:
-   - Select the mortgage type (New Purchase, Refinance, Renewal, etc.)
-   - Select the current stage of the journey
-   - Update protection discussion status
-   - Add relevant life events (marriage, new child, etc.)
+1. Configure the mortgage journey parameters:
+   - Select mortgage type (New Purchase, Refinance, Renewal, Transfer, Investment Property)
+   - Set the current application stage
+   - Update protection discussion status (Not Discussed, Briefly Mentioned, Detailed Discussion, etc.)
+   - Record relevant life events that may impact protection needs
 
-2. Use the interactive timeline visualization to track progress
+2. View the interactive timeline visualization showing the client's progress through the mortgage process
 
-3. Note the optimal protection discussion stage highlighted with a star icon
+3. Identify optimal protection discussion opportunities (highlighted with a star icon)
 
-4. Add notes for the current stage to document important details
+4. Add stage-specific notes to document client conversations and decisions
 
 ### WIPT Calculator
 
-1. Enter detailed mortgage parameters:
-   - Principal amount
-   - Annual interest rate
-   - Term length (years)
-   - Amortization period (years)
+1. Input the mortgage parameters:
+   - Principal amount (loan value)
+   - Annual interest rate (percentage)
+   - Term length (1-10 years)
+   - Amortization period (5-30 years)
    - Payment frequency (weekly, biweekly, monthly, semi-monthly)
 
-2. Add alternative rate scenarios to compare payments:
-   - Click "Add Scenario" to create multiple interest rate scenarios
-   - For example, add +1% and +2% scenarios to show impact of rate increases
+2. Create multiple interest rate scenarios for comparison:
+   - Use the "Add Scenario" button to create alternative rate scenarios
+   - Typical scenarios include current rate, +1%, +2%, and stress test rates
+   - Each scenario will be color-coded in the visualization
 
-3. Analyze the interactive payment breakdown charts:
-   - Monthly payment amounts across scenarios
-   - Principal vs. interest breakdown
-   - Total interest over the term
+3. Review the interactive visualization results:
+   - Payment amount comparison across all scenarios
+   - Principal vs. interest breakdown charts
+   - Amortization timeline visualization
+   - Total interest cost calculation over the term and amortization period
 
 ### Scenario Simulator
 
-1. Select the scenario type to simulate:
-   - Job Loss
-   - Disability
-   - Critical Illness
-   - Death of Primary Earner
+1. Choose from four life event scenarios to simulate:
+   - **Job Loss**: Temporary unemployment impact analysis
+   - **Disability**: Short or long-term disability financial modeling
+   - **Critical Illness**: Serious health condition financial impact
+   - **Death of Primary Earner**: Family financial sustainability analysis
 
-2. Configure scenario-specific parameters:
+2. Configure the scenario parameters based on client circumstances:
 
    **Job Loss Scenario:**
-   - Months unemployed
-   - Monthly EI benefit
-   - Emergency savings
-   - Essential monthly expenses
+   - Expected unemployment duration (months)
+   - Estimated monthly Employment Insurance benefits
+   - Available emergency savings
+   - Essential monthly expenses (mortgage, utilities, food, etc.)
 
    **Disability Scenario:**
-   - Months unable to work
-   - Disability benefits from other sources
-   - Emergency savings
-   - Essential expenses and medical costs
+   - Projected disability duration
+   - Income replacement from existing disability coverage
+   - Available emergency savings
+   - Essential expenses plus anticipated medical costs
 
    **Critical Illness Scenario:**
-   - Recovery period
-   - Income reduction percentage
-   - Emergency savings
-   - Medical expenses
+   - Estimated recovery period
+   - Income reduction during recovery
+   - Available emergency savings
+   - Regular expenses plus treatment costs
 
    **Death Scenario:**
-   - Other life insurance coverage
-   - Surviving household income
-   - Emergency savings
-   - Essential monthly expenses
+   - Existing life insurance coverage
+   - Remaining household income
+   - Available emergency savings
+   - Ongoing family expenses
 
-3. Review the simulation results showing:
-   - Monthly shortfall amount
-   - Total financial impact
-   - Savings depletion projection
-   - Protection benefit comparison
+3. Analyze the comprehensive simulation results:
+   - Monthly cash flow shortfall calculation
+   - Cumulative financial impact over time
+   - Emergency savings depletion timeline
+   - Side-by-side comparison with and without insurance protection
 
-4. Use the interactive charts to visualize the financial impact with and without protection
+4. Use the interactive visualizations to demonstrate the value of appropriate coverage
 
 ### Insurance Recommendations
 
-1. Access personalized recommendations after completing the client profile
+1. Access the personalized insurance recommendations generated from the client profile data
 
-2. Review the calculated recommendations for:
-   - Life insurance coverage and premium
-   - Disability insurance coverage and premium
-   - Critical illness coverage and premium
-   - Job loss protection options
+2. Review comprehensive coverage recommendations across protection types:
+   - Life insurance (mortgage balance and additional family needs)
+   - Disability insurance (income replacement during inability to work)
+   - Critical illness coverage (lump sum for treatment and recovery costs)
+   - Job loss protection (mortgage payment coverage during unemployment)
 
-3. Each recommendation includes:
-   - Coverage amount calculation rationale
-   - Premium estimate based on client profile
-   - Priority level (Essential, Recommended, Optional)
-   - Client benefit explanation
+3. Each recommendation provides detailed information:
+   - Data-driven coverage amount with calculation methodology
+   - Estimated monthly premium based on client demographics
+   - Priority classification (Essential, Recommended, Optional)
+   - Client-specific benefit explanation and value proposition
 
-4. Use the provided talking points in client discussions
+4. Leverage the provided conversation guides and objection handling tips during client discussions
 
 ### AI Advisor Assistant
 
-1. Navigate to the AI Advisor Assistant section
+1. Access the AI Advisor Assistant from the sidebar navigation
 
-2. Type specific questions about financial products or policies in the chat interface
+2. Enter specific questions about mortgage products, insurance policies, or advisory best practices
 
-3. The AI will search the knowledge base and provide detailed responses
+3. The system will perform semantic search across the knowledge base and generate comprehensive responses
 
-4. Example questions to ask:
+4. Example questions the assistant can answer:
    ```
    "What is the difference between term and whole life insurance?"
-   "How does the HomeProtector insurance work?"
-   "What happens to mortgage insurance if my client sells their home?"
+   "How does HomeProtector insurance work with mortgage renewals?"
+   "What happens to mortgage insurance if a client sells their home?"
    "What are the eligibility requirements for disability coverage?"
-   "How is the premium calculated for critical illness insurance?"
+   "How are premiums calculated for critical illness insurance?"
    "What exclusions apply to disability coverage?"
-   "Can a client have both individual life insurance and mortgage life insurance?"
+   "Can clients have both individual life insurance and mortgage insurance?"
    ```
 
-5. Each response can be used directly in client communications
+5. Use the AI-generated responses to enhance client conversations and provide accurate information
 
 ### Document Management
 
-1. Navigate to the Document Management section
+1. Navigate to the Document Management section in the sidebar
 
-2. Upload new PDF documents about financial products:
-   - Click "Upload Document"
-   - Select a PDF file from your computer
-   - The document will be processed, chunked, and added to the vector database
+2. Add new documents to the knowledge base:
+   - Click the "Upload Document" button
+   - Select a PDF file containing product information or policies
+   - The system will automatically extract text, create chunks, and generate embeddings
+   - New information is immediately available for search via the AI Assistant
 
-3. View existing documents:
-   - Select a document from the dropdown menu
-   - The PDF will be displayed directly in the application
-   - Information from all documents becomes searchable via the AI Assistant
+3. Access and view existing documents:
+   - Select any document from the dropdown menu
+   - View the PDF directly within the application interface
+   - All document content is searchable through the AI Assistant's semantic search
 
 ## Advanced Usage
 
-### Integrating with Client Management Systems
+### CRM Integration
 
-The application can be extended to integrate with external client management systems:
+Certus can be integrated with external client management systems:
 
-1. Modify the `profile.json` structure to match your CRM data format
-2. Implement API connectors in the utils.py file to fetch and synchronize client data
-3. Update the client_profile_form function in app.py to handle external data sources
+1. Modify the `profile.json` structure to align with your CRM data schema
+2. Implement API connectors in `utils.py` to synchronize client data
+3. Update the `client_profile_form()` function in `app.py` to handle external data sources
+4. Add authentication handlers if required for your CRM system
 
-### Extending the Vector Database
+### Knowledge Base Expansion
 
-To enhance the AI Assistant's knowledge:
+Extend the AI Assistant's knowledge with additional documents:
 
-1. Prepare additional PDF documents with financial product information
-2. Use the Document Management interface to upload and process these documents
-3. The system will automatically extract text, create chunks, and generate embeddings
-4. New knowledge will be immediately available through the AI Assistant interface
+1. Prepare PDF documents containing product information, policies, or guidelines
+2. Use the Document Management interface to upload and process these files
+3. The system automatically handles text extraction, chunking, and embedding generation
+4. All new information becomes immediately searchable through the AI Assistant
+5. Consider organizing documents by product type for better search results
 
 ### Custom Scenario Development
 
-To create additional simulation scenarios:
+Create additional financial simulation scenarios:
 
-1. Add new scenario types to the scenario_simulator function in app.py
-2. Define scenario-specific input parameters and calculations
-3. Create appropriate visualizations using the Plotly library
-4. Add explanation templates in the HTML sections
+1. Add new scenario types to the `scenario_simulator()` function in `app.py`
+2. Define scenario-specific input parameters and calculation logic
+3. Develop interactive visualizations using the Plotly library
+4. Create explanation templates with HTML formatting for consistent presentation
+5. Add corresponding recommendation logic in the insurance recommendation engine
 
 ## Development Guide
 
 ### Project Structure
 
 ```
-├── app.py                 # Main Streamlit application
-├── backend/               # Backend modules
+├── app.py                 # Main Streamlit application with UI components
+├── backend/               # Backend service modules
 │   ├── __init__.py
-│   ├── conversation_guides.py      # Templates for advisor conversations
-│   ├── early_journey_integration.py # Protection opportunity identification
-│   ├── journey_visualization.py    # Timeline and visualization tools
-│   └── mortgage_journey.py         # Journey tracking system
-├── config.py              # Application configuration
-├── docs/                  # Document storage
-│   └── home_protector_creditor.pdf # Sample document
+│   ├── conversation_guides.py      # Advisor conversation templates
+│   ├── early_journey_integration.py # Protection opportunity detection
+│   ├── journey_visualization.py    # Timeline visualization components
+│   └── mortgage_journey.py         # Mortgage journey state machine
+├── config.py              # Application settings and constants
+├── docs/                  # Document storage directory
+│   └── home_protector_creditor.pdf # Sample product documentation
 ├── logo.png               # Certus application logo
-├── models.py              # Data models using Pydantic
-├── profile.json           # Sample client profile
-├── requirements.txt       # Dependencies
-├── utils.py               # Utility functions
-└── vector_db/            # Vector database storage (created at runtime)
+├── models.py              # Pydantic data models and type definitions
+├── profile.json           # Sample client profile template
+├── requirements.txt       # Python dependencies
+├── utils.py               # Shared utility functions
+└── vector_db/            # ChromaDB vector database (created at runtime)
 ```
 
 ### Adding New Features
 
-1. Define any new data models in models.py
-2. Implement business logic in the appropriate backend module
-3. Add UI components to app.py using Streamlit widgets
-4. Update configuration parameters in config.py if needed
+1. Define data models in `models.py` using Pydantic with proper validation
+2. Implement core business logic in the appropriate backend module
+3. Create UI components in `app.py` using Streamlit widgets
+4. Add any new configuration parameters to `config.py`
+5. Update tests to cover new functionality
 
-### Code Styling Conventions
+### Code Style Guidelines
 
-- Use PEP 8 for Python code style
-- Organize imports alphabetically
-- Document functions with docstrings
-- Use type hints for function parameters and return values
-- Keep UI code separated from business logic
+- Follow PEP 8 conventions for Python code style
+- Organize imports alphabetically by standard, third-party, and local modules
+- Document all functions with descriptive docstrings including parameters and return values
+- Use type hints consistently throughout the codebase
+- Maintain separation between UI components and business logic
+- Use consistent naming conventions for variables and functions
 
 ## Data Privacy
 
-- All client data is processed locally within the Streamlit session
-- Client information is stored in-memory and not persisted between sessions
-- OpenAI API calls include only anonymized queries, never personal client data
-- Vector database stores only product information, not client details
-- Session data is completely cleared when the application is closed
+- All client information is processed locally within the Streamlit session state
+- No client data is persisted between sessions or stored in external databases
+- OpenAI API calls contain only anonymized queries with no personally identifiable information
+- Vector database stores only product documentation, never client details
+- All session data is automatically cleared when the application is closed
+- No tracking or analytics code is included in the application
 
 ## Troubleshooting
 
-### Common Issues
+### Common Issues and Solutions
 
-- **Application won't start**: 
-  - Ensure all dependencies are installed via `pip install -r requirements.txt`
-  - Verify Python version is 3.8 or higher
-  - Check for console errors during startup
+- **Application Startup Problems**: 
+  - Ensure all dependencies are installed with `pip install -r requirements.txt`
+  - Verify Python version is 3.8 or higher (use `python --version` to check)
+  - Look for detailed error messages in the console output
+  - Check that port 8501 is not in use by another application
 
-- **Vector search errors**: 
-  - Make sure the vector_db directory exists and has proper write permissions
-  - Check ChromaDB installation is complete with all dependencies
-  - Try reinitializing the database by uploading a document
+- **Vector Search Functionality**: 
+  - Verify the vector_db directory has appropriate write permissions
+  - Confirm ChromaDB installation is complete with all dependencies
+  - Try uploading a new document to reinitialize the database
+  - Check for any ChromaDB version compatibility issues
 
-- **OpenAI API errors**: 
-  - Verify your API key is correctly set in config.py or as an environment variable
-  - Check for API rate limits or quota exhaustion
-  - Ensure you have proper API permission for the models being used
+- **OpenAI Integration**: 
+  - Ensure your API key is correctly configured in config.py or as an environment variable
+  - Monitor for API rate limits or quota exhaustion in the OpenAI dashboard
+  - Verify you have access permissions for the models being used
+  - Check network connectivity to OpenAI's API endpoints
 
-- **Visualization errors**: 
-  - Ensure Plotly and Pandas are properly installed
-  - Check that client data inputs are within expected ranges
-  - Verify that all numeric input fields have consistent types (float or int)
+- **Visualization Issues**: 
+  - Confirm Plotly and Pandas are properly installed and compatible
+  - Ensure client data inputs are within expected numerical ranges
+  - Check that all numeric fields have consistent data types (float or int)
+  - Clear browser cache if visualizations appear corrupted
 
-- **PDF processing issues**: 
-  - Ensure PDF files are not password-protected
-  - Check that PyPDF2 is properly installed
-  - Verify the docs directory exists and has proper permissions
+- **Document Processing**: 
+  - Verify PDF files are not password-protected or encrypted
+  - Ensure PyPDF2 is properly installed with `pip install PyPDF2==3.0.0`
+  - Check that the docs directory exists with appropriate permissions
+  - Limit PDF size to under 10MB for optimal processing
