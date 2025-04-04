@@ -123,7 +123,7 @@ def display_pdf(file_path):
     pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000"></iframe>'
     st.markdown(pdf_display, unsafe_allow_html=True)
 
-def upload_and_overwrite_file(uploaded_file, folder_path="docs"):
+def upload_and_overwrite_file(uploaded_file, folder_path="../docs"):
     if uploaded_file is not None:
         file_path = os.path.join(folder_path, uploaded_file.name)
         with open(file_path, "wb") as f:
@@ -136,7 +136,7 @@ def upload_and_overwrite_file(uploaded_file, folder_path="docs"):
         st.warning("No file uploaded.")
 
 # App Initialization
-DOCS_PATH = "docs"
+DOCS_PATH = "../docs"
 
 # Use session state to control database initialization
 if "db_initialized" not in st.session_state:
@@ -178,7 +178,7 @@ def chatbot_moment():
     if st.button("Clear Chat"):
         st.session_state.chat_history = []
 
-with open("logo.png", "rb") as f:
+with open("../logo.png", "rb") as f:
     data = base64.b64encode(f.read()).decode('utf-8')
 
 st.markdown(
@@ -193,11 +193,11 @@ st.markdown(
 st.markdown("<h1 style='text-align: center; color: white; '>ADVISOR AI</h1>", unsafe_allow_html=True)
 st.subheader("Home & Auto", divider="blue")
 if button("Leland Car Insurance.pdf", key="button1"):
-    display_pdf("docs/Leland Car Insurance.pdf")
+    display_pdf("../docs/Leland Car Insurance.pdf")
 
 st.subheader("Life & Health", divider="blue")
 if button("RBC Visa Cert of Insurance.pdf", key="button2"):
-    display_pdf("docs/RBC Visa Cert of Insurance.pdf")
+    display_pdf("../docs/RBC Visa Cert of Insurance.pdf")
 
 uploaded_file = st.file_uploader("Upload a file", type=["pdf", "txt", "md"])
 if st.button("Upload"):
