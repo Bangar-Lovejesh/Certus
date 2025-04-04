@@ -1,16 +1,16 @@
 # RBC Mortgage & Creditor Insurance Advisor Assistant
 
-A comprehensive AI-powered virtual assistant designed to assist RBC financial advisors in providing personalized mortgage and creditor insurance advice to clients. The application uses a Streamlit interface with ChromaDB vector search capabilities to deliver context-aware recommendations and intelligent alerts.
+An AI-powered virtual assistant designed to assist RBC mortgage specialists and advisors in providing personalized mortgage and creditor insurance advice to clients. The application uses Streamlit for the UI and ChromaDB for vector search capabilities.
 
 ## Overview
 
 This tool helps RBC advisors:
 - Access AI-powered assistance for mortgage and insurance advice through a chatbot interface
 - Collect and manage client information through an intuitive interface
-- Get context-aware recommendations based on the current screen
-- Receive intelligent alerts for cross-selling opportunities
-- Simulate financial impacts of life events on clients
-- Calculate mortgage payments and insurance premiums
+- Calculate mortgage payments with the WIPT (What If Payment Tool) calculator
+- Get personalized insurance recommendations based on client profiles
+- Simulate financial impacts of life events on clients (job loss, disability, critical illness, death)
+- Receive context-aware advisor alerts for cross-selling opportunities
 - Access RBC product information through vector search
 
 ## Table of Contents
@@ -21,8 +21,6 @@ This tool helps RBC advisors:
 - [Usage Guide](#usage-guide)
 - [Data Privacy](#data-privacy)
 - [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -33,32 +31,20 @@ This tool helps RBC advisors:
 
 ### Setup
 
-1. Install dependencies:
+1. Clone the repository or download the source code
+
+2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Start the FastAPI server:
-   ```bash
-   cd backend
-   uvicorn api:app --reload
-   ```
-
-3. Access the application:
-   Open your browser and navigate to `http://localhost:8000`
-
-### API Documentation
-
-Once the server is running, you can access the API documentation at:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
-   ```
+3. Make sure you have an OpenAI API key and set it in the config.py file or as an environment variable named OPENAI_API_KEY
 
 ## Getting Started
 
 1. Start the application:
    ```bash
-   streamlit run backend/app.py
+   streamlit run app.py
    ```
 
 2. The app will open in your default web browser at `http://localhost:8501`
@@ -99,6 +85,12 @@ AI-powered chatbot providing:
 - Recommendation rationales
 - Client-friendly explanations
 
+### Document Management
+Manage and search through RBC product documentation:
+- Upload PDF documents
+- Vector search for relevant information
+- View document content within the app
+
 ## Usage Guide
 
 ### Navigation
@@ -137,16 +129,6 @@ Use the sidebar to navigate between different sections of the app.
 
 2. Add alternative rate scenarios to compare payments
 
-3. Example input:
-   ```
-   Mortgage Amount: $450,000
-   Amortization Period: 25 years
-   Term: 5 years
-   Current Interest Rate: 4.5%
-   Payment Frequency: Monthly
-   Alternative Rate Scenario: 5.5%
-   ```
-
 ### Scenario Simulator
 
 1. Select life events to simulate:
@@ -159,13 +141,11 @@ Use the sidebar to navigate between different sections of the app.
 
 ### Insurance Options
 
-1. Select the types of insurance coverage to explore:
+1. Review personalized recommendations based on the client profile for:
    - Life insurance
    - Disability insurance
    - Critical illness coverage
    - Job loss protection
-
-2. Review personalized recommendations based on the client profile
 
 ### Advisor Assistant
 
@@ -190,5 +170,5 @@ Use the sidebar to navigate between different sections of the app.
 ### Common Issues
 
 - **Application won't start**: Ensure all dependencies are installed and Python version is compatible
-- **Visualization errors**: Check that input data is in the correct format
-- **Rerun errors**: If you encounter `st.experimental_rerun()` errors, update to `st.rerun()` in the code
+- **Vector search errors**: Make sure the vector database directory exists and has proper permissions
+- **OpenAI API errors**: Verify your API key is correctly set in config.py or as an environment variable
