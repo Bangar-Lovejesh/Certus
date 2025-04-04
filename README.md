@@ -40,7 +40,7 @@ This tool helps financial advisors:
 1. Clone the repository or download the source code:
    ```bash
    git clone <repository-url>
-   cd NUMBA1
+   cd certus
    ```
 
 2. Create and activate a virtual environment (recommended):
