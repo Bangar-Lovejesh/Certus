@@ -457,3 +457,170 @@ Create additional financial simulation scenarios:
   - Ensure PyPDF2 is properly installed with `pip install PyPDF2==3.0.0`
   - Check that the docs directory exists with appropriate permissions
   - Limit PDF size to under 10MB for optimal processing
+
+## Example User Journey: Comprehensive Advisory Session
+
+This section walks through a complete advisory session using Certus to demonstrate how all features work together to provide comprehensive mortgage and insurance advice.
+
+### Client: Michael and Jennifer Thompson
+
+**Scenario**: The Thompsons are a couple in their mid-30s looking to purchase their first home. They have been pre-approved for a mortgage and want to understand their payment options and protection needs.
+
+### Step 1: Create Client Profile
+
+1. Navigate to the **Client Profile** section
+2. Enter the following information:
+
+```
+Full Name: Michael Thompson
+Age: 34
+Email: michael.thompson@example.com
+Phone: 416-555-1234
+Occupation: Marketing Manager
+Annual Income: $85,000
+Years at Current Job: 5
+Current Mortgage Balance: $0 (First-time buyer)
+Property Value: $550,000 (Purchase price)
+Dependents: 1 (expecting a child in 6 months)
+Smoker: No
+Pre-existing Conditions: No
+Risk Tolerance: Moderate
+```
+
+3. Add spouse information in notes: "Jennifer Thompson, 32, Graphic Designer, $65,000 annual income, 3 years at current job"
+4. Click **Save Profile**
+
+### Step 2: Track Mortgage Journey
+
+1. Navigate to the **Mortgage Journey Tracker**
+2. Configure the journey:
+   - Mortgage Type: **New Purchase**
+   - Current Stage: **Rate Shopping**
+   - Protection Discussion: **Briefly Mentioned**
+   - Add Life Event: **New Child** (with note: "Baby due in 6 months")
+
+3. The timeline visualization appears showing:
+   - Current stage highlighted
+   - Star icon indicating optimal protection discussion opportunity at the **Application Submission** stage
+   - Alert appears suggesting: "Client is expecting a child - ideal time to discuss life and disability protection"
+
+4. Add a note to the current stage: "Clients are comparing rates between 3 lenders. Leaning towards 5-year fixed."
+
+### Step 3: Calculate Mortgage Payments
+
+1. Navigate to the **WIPT Calculator**
+2. Enter mortgage details:
+   ```
+   Principal: $495,000 (Purchase price minus 10% down payment)
+   Annual Interest Rate: 4.79%
+   Term: 5 years
+   Amortization: 25 years
+   Payment Frequency: Bi-weekly
+   ```
+
+3. Add two additional scenarios:
+   - Scenario 2: 5.29% (Rate + 0.5%)
+   - Scenario 3: 5.79% (Rate + 1.0%)
+
+4. Review the payment comparison:
+   - Current Rate (4.79%): $1,256 bi-weekly
+   - Scenario 2 (5.29%): $1,325 bi-weekly
+   - Scenario 3 (5.79%): $1,396 bi-weekly
+
+5. Show clients the principal vs. interest breakdown chart, highlighting how higher rates significantly increase total interest paid
+
+### Step 4: Review Insurance Recommendations
+
+1. Navigate to the **Insurance Recommendations** section
+2. System automatically generates recommendations based on client profile:
+
+   **Life Insurance (Essential)**
+   - Recommended Coverage: $650,000
+   - Monthly Premium: $45.75
+   - Rationale: "Covers mortgage balance plus 3 years of income replacement for family with new child"
+
+   **Disability Insurance (Essential)**
+   - Recommended Coverage: $3,500/month
+   - Monthly Premium: $87.50
+   - Rationale: "Provides mortgage payment plus basic expenses if unable to work"
+
+   **Critical Illness (Recommended)**
+   - Recommended Coverage: $100,000
+   - Monthly Premium: $62.25
+   - Rationale: "Lump sum to cover treatment costs and recovery period"
+
+   **Job Loss Protection (Optional)**
+   - Recommended Coverage: 6 months of payments
+   - Monthly Premium: $35.00
+   - Rationale: "Covers mortgage payments during unemployment period"
+
+### Step 5: Run Financial Impact Simulations
+
+1. Navigate to the **Scenario Simulator**
+2. Select **Disability Scenario** and configure:
+   ```
+   Duration: 12 months
+   Monthly Income During Disability: $1,000 (from employer benefits)
+   Emergency Savings: $15,000
+   Essential Monthly Expenses: $4,500
+   ```
+
+3. Review simulation results:
+   - Without Protection: Savings depleted after 4 months, $42,000 shortfall over 12 months
+   - With Protection: $3,500/month benefit covers mortgage and essential expenses
+   - Interactive chart shows financial impact comparison
+
+4. Run **Death Scenario** simulation:
+   ```
+   Surviving Household Income: $65,000 (spouse's income)
+   Emergency Savings: $15,000
+   Essential Monthly Expenses: $4,500
+   ```
+
+5. Review results:
+   - Without Protection: $39,000 annual shortfall, savings depleted in 5 months
+   - With Protection: Mortgage eliminated, remaining insurance provides 3 years of income supplement
+
+### Step 6: Use AI Advisor for Specific Questions
+
+1. Navigate to the **AI Advisor Assistant**
+2. Ask specific questions about the recommended insurance:
+   ```
+   "How does the HomeProtector insurance differ from individual life insurance?"
+   ```
+
+3. AI Assistant responds with comprehensive comparison:
+   - HomeProtector is tied to the mortgage and pays directly to the lender
+   - Individual insurance provides more flexibility with beneficiary selection
+   - HomeProtector decreases with mortgage balance while individual can maintain level coverage
+   - Individual policies are portable when moving or changing lenders
+
+4. Ask follow-up question:
+   ```
+   "What happens to mortgage insurance if we sell this home and buy another one?"
+   ```
+
+5. AI provides detailed explanation of portability options and re-application requirements
+
+### Step 7: Access Product Documentation
+
+1. Navigate to the **Document Management** section
+2. Upload a new document: "RBC_Mortgage_Options_Guide.pdf"
+3. System processes the document and adds it to the knowledge base
+4. Select "HomeProtector_Insurance_Policy.pdf" from the dropdown to review with clients
+5. Return to AI Assistant and ask:
+   ```
+   "What are the exclusions for disability coverage based on the policy document?"
+   ```
+
+6. AI Assistant provides specific exclusions from the policy document with page references
+
+### Step 8: Complete the Advisory Session
+
+1. Return to the **Mortgage Journey Tracker**
+2. Update the journey stage to **Application Submission**
+3. Change protection discussion status to **Detailed Discussion**
+4. Add note: "Clients interested in life and disability coverage. Will decide after final mortgage approval."
+5. Schedule follow-up for insurance application after mortgage approval
+
+This comprehensive journey demonstrates how Certus guides advisors through a complete mortgage and insurance consultation, from initial client profiling through payment calculations, protection recommendations, scenario modeling, and leveraging AI assistance for detailed product information.
