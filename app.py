@@ -45,7 +45,31 @@ from models import (
     ChatMessage,
     InsuranceRecommendation
 )
-
+from backend.mortgage_journey import (
+    MortgageJourney,
+    MortgageJourneyStage,
+    MortgageType,
+    ProtectionDiscussionStatus,
+    LifeEvent,
+    get_journey_stage_description
+)
+from backend.conversation_guides import (
+    create_personalized_guide,
+    get_discovery_conversation_template,
+    get_protection_benefits_template,
+    get_what_if_scenario_template,
+    get_objection_handling_tips
+)
+from backend.early_journey_integration import (
+    identify_protection_opportunities,
+    generate_protection_discussion_guide,
+    ProtectionDiscussionTracker
+)
+from backend.journey_visualization import (
+    create_journey_timeline,
+    create_protection_opportunity_gauge,
+    create_protection_impact_chart
+)
 # Page configuration
 st.set_page_config(
     page_title=APP_TITLE,
@@ -67,6 +91,23 @@ if "recommendations" not in st.session_state:
     st.session_state.recommendations = []
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
+
+# Initialize mortgage journey state variables
+if "mortgage_journey" not in st.session_state:
+    # Create default journey
+    st.session_state.mortgage_journey = MortgageJourney(
+        client_id=st.session_state.session_id,
+        mortgage_type=MortgageType.NEW_PURCHASE,
+        current_stage=MortgageJourneyStage.INITIAL_INQUIRY,
+        started_at=datetime.now(),
+        protection_discussion=ProtectionDiscussionStatus.NOT_DISCUSSED
+    )
+if "protection_discussion_tracker" not in st.session_state:
+    st.session_state.protection_discussion_tracker = ProtectionDiscussionTracker(
+        client_id=st.session_state.session_id
+    )
+if "conversation_guide" not in st.session_state:
+    st.session_state.conversation_guide = None
 
 def apply_rbc_styling():
     """Apply RBC brand styling to the Streamlit app"""
@@ -858,6 +899,166 @@ def display_insurance_recommendations():
     </div>
     """, unsafe_allow_html=True)
 
+def mortgage_journey_tracker():
+    """Create a mortgage journey tracker interface"""
+    st.header("Mortgage Journey Tracker")
+    
+    journey = st.session_state.mortgage_journey
+    client_data = st.session_state.client_data
+    
+    # Journey configuration section
+    with st.expander("Journey Configuration", expanded=True):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Mortgage type selection
+            mortgage_type = st.selectbox(
+                "Mortgage Type",
+                options=list(MortgageType),
+                format_func=lambda x: x.value.replace('_', ' ').title(),
+                index=list(MortgageType).index(journey.mortgage_type)
+            )
+            
+            # Current stage selection
+            current_stage = st.selectbox(
+                "Current Journey Stage",
+                options=list(MortgageJourneyStage),
+                format_func=lambda x: get_journey_stage_description(x).get("name", x.value),
+                index=list(MortgageJourneyStage).index(journey.current_stage)
+            )
+        
+        with col2:
+            # Protection discussion status
+            protection_status = st.selectbox(
+                "Protection Discussion Status",
+                options=list(ProtectionDiscussionStatus),
+                format_func=lambda x: x.value.replace('_', ' ').title(),
+                index=list(ProtectionDiscussionStatus).index(journey.protection_discussion)
+            )
+            
+            # Life events multi-select
+            life_events = st.multiselect(
+                "Recent Life Events",
+                options=list(LifeEvent),
+                default=journey.recent_life_events,
+                format_func=lambda x: x.value.replace('_', ' ').title()
+            )
+        
+        # Notes for the current stage
+        stage_notes = st.text_area(
+            "Notes for Current Stage",
+            value=journey.notes.get(current_stage, ""),
+            height=100
+        )
+        
+        # Update button
+        if st.button("Update Journey"):
+            # Update journey in session state
+            journey.mortgage_type = mortgage_type
+            journey.update_stage(current_stage, stage_notes)
+            journey.update_protection_discussion(protection_status)
+            
+            # Update life events
+            journey.recent_life_events = life_events
+            
+            # Update protection discussion tracker
+            st.session_state.protection_discussion_tracker.add_discussion(
+                stage=current_stage,
+                status=protection_status,
+                notes=stage_notes
+            )
+            
+            # Regenerate conversation guide
+            st.session_state.conversation_guide = create_personalized_guide(
+                client_data=client_data,
+                journey_stage=current_stage,
+                life_events=life_events
+            )
+            
+            st.success("Journey updated successfully!")
+            st.rerun()
+    
+    # Journey visualization
+    st.subheader("Journey Timeline")
+    timeline_fig = create_journey_timeline(journey)
+    st.plotly_chart(timeline_fig, use_container_width=True)
+    
+    # Protection opportunity gauge
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        gauge_fig = create_protection_opportunity_gauge(journey, client_data)
+        st.plotly_chart(gauge_fig, use_container_width=True)
+    
+    with col2:
+        st.subheader("Optimal Protection Discussion")
+        optimal_stage = journey.get_optimal_protection_discussion_stage()
+        optimal_stage_info = get_journey_stage_description(optimal_stage)
+        
+        st.markdown(f"**Recommended Stage:** {optimal_stage_info.get('name', optimal_stage.value)}")
+        st.markdown(f"**Current Status:** {journey.protection_discussion.value.replace('_', ' ').title()}")
+        
+        if journey.should_discuss_protection_now():
+            st.success("✅ Now is an ideal time to discuss protection with this client.")
+        else:
+            st.info("ℹ️ Protection has been discussed or the optimal time has not yet arrived.")
+    
+    # Protection discussion guide
+    st.subheader("Protection Discussion Guide")
+    
+    # Generate or retrieve conversation guide
+    if not st.session_state.conversation_guide:
+        st.session_state.conversation_guide = create_personalized_guide(
+            client_data=client_data,
+            journey_stage=journey.current_stage,
+            life_events=journey.recent_life_events
+        )
+    
+    guide = st.session_state.conversation_guide
+    
+    with st.expander("Conversation Template", expanded=True):
+        st.markdown(f"**Title:** {guide.template.title}")
+        st.markdown(f"**Objective:** {guide.template.objective}")
+        
+        st.markdown("**Key Questions:**")
+        for question in guide.template.key_questions:
+            st.markdown(f"- {question}")
+        
+        st.markdown("**General Talking Points:**")
+        for point in guide.template.talking_points:
+            st.markdown(f"- {point}")
+    
+    with st.expander("Client-Specific Guidance", expanded=True):
+        st.markdown("**Personalized Talking Points:**")
+        if guide.client_specific_points:
+            for point in guide.client_specific_points:
+                st.markdown(f"- {point}")
+        else:
+            st.info("Complete the client profile to see personalized talking points.")
+        
+        st.markdown(f"**Recommended Timing:** {guide.recommended_timing}")
+        
+        st.markdown("**Next Steps:**")
+        for step in guide.next_steps:
+            st.markdown(f"- {step}")
+    
+    with st.expander("Objection Handling", expanded=False):
+        st.markdown("**Common Objections and Responses:**")
+        for objection, response in guide.template.objection_responses.items():
+            st.markdown(f"**If client says:** *{objection}*")
+            st.markdown(f"**You can respond:** {response}")
+    
+    # Financial impact visualization
+    st.subheader("Protection Impact Visualization")
+    
+    scenario_type = st.selectbox(
+        "Select Scenario",
+        options=["disability", "critical_illness", "job_loss", "death"],
+        format_func=lambda x: x.title()
+    )
+    
+    impact_fig = create_protection_impact_chart(client_data, scenario_type)
+    st.plotly_chart(impact_fig, use_container_width=True)
+
 def scenario_simulator():
     """Create a scenario simulator for exploring insurance benefits"""
     st.subheader("Scenario Simulator")
@@ -899,11 +1100,11 @@ def scenario_simulator():
         
         with col1:
             months_unemployed = st.slider("Months Unemployed", min_value=1, max_value=12, value=3)
-            ei_benefit = st.number_input("Monthly EI Benefit ($)", min_value=0, value=min(2000, monthly_income * 0.55))
+            ei_benefit = st.number_input("Monthly EI Benefit ($)", min_value=0.0, value=float(min(2000, monthly_income * 0.55)))
         
         with col2:
-            savings = st.number_input("Emergency Savings ($)", min_value=0, value=monthly_income * 3)
-            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0, value=monthly_income * 0.4)
+            savings = st.number_input("Emergency Savings ($)", min_value=0.0, value=float(monthly_income * 3))
+            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0.0, value=float(monthly_income * 0.4))
         
         # Calculate financial impact
         monthly_shortfall = monthly_payment + other_expenses - ei_benefit
@@ -957,12 +1158,12 @@ def scenario_simulator():
         
         with col1:
             months_disabled = st.slider("Months Unable to Work", min_value=1, max_value=24, value=6)
-            disability_benefit = st.number_input("Monthly Disability Benefit from Other Sources ($)", min_value=0, value=monthly_income * 0.3)
+            disability_benefit = st.number_input("Monthly Disability Benefit from Other Sources ($)", min_value=0.0, value=float(monthly_income * 0.3))
         
         with col2:
-            savings = st.number_input("Emergency Savings ($)", min_value=0, value=monthly_income * 3)
-            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0, value=monthly_income * 0.4)
-            medical_expenses = st.number_input("Additional Monthly Medical Expenses ($)", min_value=0, value=500)
+            savings = st.number_input("Emergency Savings ($)", min_value=0.0, value=float(monthly_income * 3))
+            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0.0, value=float(monthly_income * 0.4))
+            medical_expenses = st.number_input("Additional Monthly Medical Expenses ($)", min_value=0.0, value=500.0)
         
         # Calculate financial impact
         monthly_shortfall = monthly_payment + other_expenses + medical_expenses - disability_benefit
@@ -1022,9 +1223,9 @@ def scenario_simulator():
             income_reduction = st.slider("Income Reduction During Recovery (%)", min_value=0, max_value=100, value=70)
         
         with col2:
-            savings = st.number_input("Emergency Savings ($)", min_value=0, value=monthly_income * 3)
-            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0, value=monthly_income * 0.4)
-            medical_expenses = st.number_input("Additional Monthly Medical Expenses ($)", min_value=0, value=2000)
+            savings = st.number_input("Emergency Savings ($)", min_value=0.0, value=float(monthly_income * 3))
+            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0.0, value=float(monthly_income * 0.4))
+            medical_expenses = st.number_input("Additional Monthly Medical Expenses ($)", min_value=0.0, value=2000.0)
         
         # Calculate financial impact
         reduced_income = monthly_income * (1 - income_reduction / 100)
@@ -1075,12 +1276,12 @@ def scenario_simulator():
         col1, col2 = st.columns(2)
         
         with col1:
-            life_insurance = st.number_input("Other Life Insurance Coverage ($)", min_value=0, value=annual_income)
-            survivor_income = st.number_input("Surviving Household Monthly Income ($)", min_value=0, value=monthly_income * 0.3 if dependents > 0 else 0)
+            life_insurance = st.number_input("Other Life Insurance Coverage ($)", min_value=0.0, value=float(annual_income))
+            survivor_income = st.number_input("Surviving Household Monthly Income ($)", min_value=0.0, value=float(monthly_income * 0.3 if dependents > 0 else 0.0))
         
         with col2:
-            savings = st.number_input("Emergency Savings ($)", min_value=0, value=monthly_income * 6)
-            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0, value=monthly_income * 0.4)
+            savings = st.number_input("Emergency Savings ($)", min_value=0.0, value=float(monthly_income * 6))
+            other_expenses = st.number_input("Monthly Essential Expenses (excluding mortgage)", min_value=0.0, value=float(monthly_income * 0.4))
         
         # Calculate financial impact
         monthly_shortfall = monthly_payment + other_expenses - survivor_income
@@ -1151,6 +1352,7 @@ def main():
         options=[
             "AI Advisor Assistant",
             "Client Profile",
+            "Mortgage Journey Tracker",
             "WIPT Calculator",
             "Insurance Recommendations",
             "Scenario Simulator",
@@ -1162,6 +1364,7 @@ def main():
     screen_mapping = {
         "AI Advisor Assistant": ScreenType.PRODUCT_RECOMMENDATION,
         "Client Profile": ScreenType.CLIENT_PROFILE,
+        "Mortgage Journey Tracker": ScreenType.MORTGAGE_APPLICATION,
         "WIPT Calculator": ScreenType.PAYMENT_CALCULATOR,
         "Insurance Recommendations": ScreenType.PRODUCT_RECOMMENDATION,
         "Scenario Simulator": ScreenType.PRODUCT_RECOMMENDATION,
@@ -1178,6 +1381,13 @@ def main():
     
     elif page == "Client Profile":
         client_profile_form()
+    
+    elif page == "Mortgage Journey Tracker":
+        if not st.session_state.client_data:
+            st.warning("Please complete the client profile first to use the Mortgage Journey Tracker.")
+            st.button("Go to Client Profile", on_click=lambda: st.session_state.update({"_radio": "Client Profile"}))
+        else:
+            mortgage_journey_tracker()
     
     elif page == "WIPT Calculator":
         wipt_calculator()

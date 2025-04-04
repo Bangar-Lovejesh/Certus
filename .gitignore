@@ -5,3 +5,11 @@ vector_db
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Presentation materials
+*presentation*.md
+*presentation*.txt
+*slide_deck*.pptx
+*demo_script*.md
+ppt_slide_content.md
+presentation_assets/
