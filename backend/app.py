@@ -260,7 +260,7 @@ def chatbot_moment():
         st.markdown('</div>', unsafe_allow_html=True)
 
     with st.form(key="chat_form", clear_on_submit=True):
-        user_query = st.text_input("Ask a question:", key="user_input", placeholder="How can I help with your mortgage needs today?", label_visibility="collapsed")
+        user_query = st.text_input("Ask a question:", key="user_input", placeholder="How can I help with your Insurance needs today?", label_visibility="collapsed")
         col1, col2 = st.columns([4, 1])
         with col2:
             submit_button = st.form_submit_button(label="Send")
@@ -275,7 +275,7 @@ def chatbot_moment():
             st.session_state.chat_history[-1] = (user_query, response)
             st.experimental_rerun()
         else:
-            st.session_state.chat_history[-1] = (user_query, "I'm sorry, I couldn't find information on that. Please try rephrasing your question or speak with an RBC mortgage specialist for more assistance.")
+            st.session_state.chat_history[-1] = (user_query, "I'm sorry, I couldn't find information on that. Please try rephrasing your question or speak with an specialist for more assistance.")
             st.experimental_rerun()
 
     if st.button("Clear Chat"):
@@ -284,7 +284,7 @@ def chatbot_moment():
 
 def generate_scenarios_with_docs(customer_data):
     # First, retrieve relevant document chunks based on customer data
-    search_query = f"mortgage scenarios for income {customer_data['income']} credit score {customer_data['credit_score']} mortgage amount {customer_data['mortgage_amount']}"
+    search_query = f"Insurance scenarios for income {customer_data['income']} credit score {customer_data['credit_score']} Insurance amount {customer_data['Insurance_amount']}"
     relevant_docs = retrieve_relevant_chunks(search_query, top_k=5)
     
     # Combine the relevant document chunks into a context
@@ -295,13 +295,13 @@ def generate_scenarios_with_docs(customer_data):
 Name: {customer_data['name']}
 Age: {customer_data['age']}
 Annual Income: ${customer_data['income']}
-Mortgage Amount: ${customer_data['mortgage_amount']}
+Insurance Amount: ${customer_data['Insurance_amount']}
 Credit Score: {customer_data['credit_score']}
 
-And considering this information from RBC mortgage documents:
+And considering this information from the documents:
 {context}
 
-Generate three possible scenarios related to their mortgage situation and financial standing. 
+Generate three possible scenarios related to their Insurance situation and financial standing. 
 Use specific details from RBC documents where relevant.
 Provide advice for each scenario. Format your response as follows:
 
@@ -336,8 +336,8 @@ Advice:
 
 def customer_data_form():
     st.markdown('<div class="rbc-card">', unsafe_allow_html=True)
-    st.markdown("### Personalized Mortgage Assessment")
-    st.markdown("Fill in your details below to receive personalized mortgage scenarios and advice based on RBC's mortgage products and services.")
+    st.markdown("### Personalized Insurance Assessment")
+    st.markdown("Fill in your details below to receive personalized Insurance scenarios and advice based on RBC's Insurance products and services.")
     st.markdown('</div>', unsafe_allow_html=True)
     
     st.markdown('<div class="rbc-card">', unsafe_allow_html=True)
@@ -349,7 +349,7 @@ def customer_data_form():
             income = st.number_input("Annual Income ($)", min_value=0, value=75000, step=5000)
         
         with col2:
-            mortgage_amount = st.number_input("Desired Mortgage Amount ($)", min_value=0, value=400000, step=25000)
+            Insurance_amount = st.number_input("Desired Insurance Amount ($)", min_value=0, value=400000, step=25000)
             credit_score = st.slider("Credit Score", min_value=300, max_value=850, value=700)
             use_docs = st.checkbox("Include RBC product information", value=True)
         
@@ -364,7 +364,7 @@ def customer_data_form():
             "name": name,
             "age": age,
             "income": income,
-            "mortgage_amount": mortgage_amount,
+            "Insurance_amount": Insurance_amount,
             "credit_score": credit_score
         }
         
@@ -372,7 +372,7 @@ def customer_data_form():
             time.sleep(2)
             
             st.markdown('<div class="rbc-card">', unsafe_allow_html=True)
-        st.markdown("### Your Personalized Mortgage Scenarios")
+        st.markdown("### Your Personalized Insurance Scenarios")
         
         if use_docs:
             scenarios = generate_scenarios_with_docs(customer_data)
@@ -389,8 +389,8 @@ def customer_data_form():
         
         st.markdown("""
         <div style="background-color: #E1F5FE; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #FEDF01;">
-            <strong>Next Steps:</strong> To discuss these scenarios in more detail or to begin your mortgage application, 
-            please contact an RBC mortgage specialist at 1-800-769-2511 or visit your nearest RBC branch.
+            <strong>Next Steps:</strong> To discuss these scenarios in more detail or to begin your Insurance application, 
+            please contact an RBC specialist at 1-800-769-2511 or visit your nearest RBC branch.
         </div>
         """, unsafe_allow_html=True)
         
@@ -401,10 +401,10 @@ def generate_scenarios(customer_data):
 Name: {customer_data['name']}
 Age: {customer_data['age']}
 Annual Income: ${customer_data['income']}
-Mortgage Amount: ${customer_data['mortgage_amount']}
+Insurance Amount: ${customer_data['Insurance_amount']}
 Credit Score: {customer_data['credit_score']}
 
-Generate three possible scenarios related to their mortgage situation and financial standing with RBC. 
+Generate three possible scenarios related to their Insurance situation and financial standing with RBC. 
 Format your response as follows:
 
 Scenario 1:
@@ -456,14 +456,14 @@ def simulate(query, user_info):
     
     # Create prompt for the simulation
     prompt = f"""
-You are a helpful mortgage advisor at RBC Royal Bank. Create a detailed simulation based on the following query:
+You are a helpful Insurance advisor at RBC Royal Bank. Create a detailed simulation based on the following query:
 
 Query: {query}
 
 User Profile:
 {user_info_str}
 
-Use the following mortgage insurance information as context:
+Use the following Insurance insurance information as context:
 {context}
 
 Create a realistic simulation that addresses the query and incorporates the user's financial situation. Format your response in markdown with clear sections and bullet points where appropriate.
@@ -473,7 +473,7 @@ Create a realistic simulation that addresses the query and incorporates the user
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful mortgage advisor at RBC Royal Bank."},
+                {"role": "system", "content": "You are a helpful Insurance advisor at RBC Royal Bank."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -496,8 +496,8 @@ def load_user_profile(file_path="../profile.json"):
 
 def simulation_tab():
     """Create a simulation tab interface"""
-    st.markdown("## Mortgage Scenario Simulator")
-    st.markdown("Explore how different life events might affect your mortgage situation.")
+    st.markdown("## Insurance Scenario Simulator")
+    st.markdown("Explore how different life events might affect your Insurance situation.")
     
     # Load user profile
     profile_data = load_user_profile()
@@ -540,9 +540,9 @@ def simulation_tab():
     # Predefined scenarios
     scenarios = [
         "Create a scenario where the client has to deal with job loss",
-        "Simulate how a new child would affect mortgage affordability",
-        "Create a simulation of how critical illness would impact mortgage payments",
-        "Simulate the impact of interest rate increases on the mortgage",
+        "Simulate how a new child would affect Insurance affordability",
+        "Create a simulation of how critical illness would impact Insurance payments",
+        "Simulate the impact of interest rate increases on the Insurance",
         "Custom scenario (specify below)"
     ]
     
@@ -550,7 +550,7 @@ def simulation_tab():
     
     if selected_scenario == "Custom scenario (specify below)":
         custom_query = st.text_area("Describe your custom scenario:", height=100)
-        query = custom_query if custom_query else "Create a general mortgage scenario"
+        query = custom_query if custom_query else "Create a general Insurance scenario"
     else:
         query = selected_scenario
     
@@ -560,7 +560,7 @@ def simulation_tab():
             st.markdown(simulation_result)
 
 def main():
-    st.set_page_config(page_title="RBC Mortgage Advisor", layout="wide", page_icon="🏦")
+    st.set_page_config(page_title="APP name", layout="wide", page_icon="🏦")
     apply_rbc_styling()
     
     # Header with RBC logo
@@ -568,8 +568,8 @@ def main():
     with col1:
         st.image("https://www.rbcroyalbank.com/dvl/v1.0/assets/images/logos/rbc-logo-shield.svg", width=80)
     with col2:
-        st.title("RBC Mortgage Advisor")
-        st.markdown("<p style='color: #666;'>Powered by AI to help you make informed mortgage decisions</p>", unsafe_allow_html=True)
+        st.title("RBC insurance Advisor")
+        st.markdown("<p style='color: #666;'>Powered by AI to help you make informed Insurance decisions</p>", unsafe_allow_html=True)
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
@@ -583,7 +583,7 @@ def main():
             upload_and_overwrite_file(uploaded_file)
     
     # Main content area with tabs
-    tab1, tab2, tab3, tab4 = st.tabs(["💬 Mortgage Assistant", "📝 Personalized Assessment", "📄 Document Library", "🔮 Scenario Simulator"])
+    tab1, tab2, tab3, tab4 = st.tabs(["💬 Insurance Assistant", "📝 Personalized Assessment", "📄 Document Library", "🔮 Scenario Simulator"])
     
     with tab1:
         chatbot_moment()
@@ -593,7 +593,7 @@ def main():
     
     with tab3:
         st.markdown("## Document Library")
-        st.markdown("View and search through mortgage-related documents.")
+        st.markdown("View and search through Insurance-related documents.")
         
         doc_folder = "../docs"
         if os.path.exists(doc_folder):
