@@ -3,6 +3,8 @@ Configuration settings for the RBC Mortgage & Creditor Insurance Advisor Assista
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Base paths
 BASE_DIR = Path(__file__).resolve().parent
