@@ -39,8 +39,8 @@ Certus empowers financial advisors to:
 
 1. Clone the repository or download the source code:
    ```bash
-   git clone <repository-url>
-   cd certus
+   git clone https://github.com/Bangar-Lovejesh/Certus
+   cd Certus
    ```
 
 2. Create and activate a virtual environment (recommended):
@@ -69,6 +69,10 @@ Certus empowers financial advisors to:
      # On macOS/Linux
      export OPENAI_API_KEY=your-api-key-here
      ```
+   - Option 3: create a `.env` file and add a line with your api key
+      ```txt
+      OPENAI_API_KEY=your-api-key-here
+      ```
 
 5. The vector database directory will be created automatically on first run
 
