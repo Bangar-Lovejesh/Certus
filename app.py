@@ -339,6 +339,9 @@ def chatbot_interface():
     # Use a form to prevent rerun loops
     if send_button and user_input:
         # Check if this is a new message (not just a rerun with the same input)
+        user_info = ""
+        if "full_name" in st.session_state.client_data:
+            user_info = json.dumps(st.session_state.client_data)
         if "last_input" not in st.session_state or user_input != st.session_state.last_input:
             # Store this input to prevent duplicate processing
             st.session_state.last_input = user_input
@@ -350,7 +353,7 @@ def chatbot_interface():
             relevant_docs = retrieve_relevant_chunks(user_input)
             
             # Generate response
-            response = generate_response(user_input, relevant_docs)
+            response = generate_response(user_input, relevant_docs, user_info=user_info)
             
             # Add assistant response to chat history
             st.session_state.chat_history.append({"role": "assistant", "content": response, "timestamp": str(datetime.now())})
@@ -779,6 +782,7 @@ def generate_insurance_recommendations(client_data):
                 "coverage_type": CoverageType.LIFE,
                 "recommended_amount": mortgage_amount,
                 "monthly_premium": life_premium / 12,  # Convert to monthly
+                "pricing": "Monthly premium rate per $1,000 of initial insured mortgage balance \n.",
                 "rationale": f"Provides full mortgage protection in case of death. {'Especially important with dependents.' if dependents > 0 else ''}",
                 "priority": priority
             })
@@ -799,8 +803,9 @@ def generate_insurance_recommendations(client_data):
                 "coverage_type": CoverageType.DISABILITY,
                 "recommended_amount": monthly_payment * 24,  # 24 months of payments
                 "monthly_premium": disability_premium / 12,  # Convert to monthly
+                "pricing": "Premium rates per $100 of mortgage payment.",
                 "rationale": f"Covers mortgage payments for up to 24 months if you're unable to work due to disability. {'Your mortgage payments are a significant portion of your income.' if priority == 'Essential' else ''}",
-                "priority": priority
+                "priority": priority,
             })
     
     # Critical illness insurance recommendation
@@ -812,6 +817,7 @@ def generate_insurance_recommendations(client_data):
                 "coverage_type": CoverageType.CRITICAL_ILLNESS,
                 "recommended_amount": min(mortgage_amount, 300000),  # Max coverage of $300,000
                 "monthly_premium": ci_premium / 12,  # Convert to monthly
+                "pricing": "Monthly premium rate per $1,000 of initial insured mortgage balance.",
                 "rationale": "Provides a lump sum payment to help with your mortgage if you're diagnosed with a covered critical illness like cancer, heart attack, or stroke.",
                 "priority": priority
             })
@@ -830,6 +836,7 @@ def generate_insurance_recommendations(client_data):
                 "coverage_type": CoverageType.JOB_LOSS,
                 "recommended_amount": monthly_payment * 6,  # 6 months of payments
                 "monthly_premium": monthly_payment * 0.03,  # Rough estimate
+                "pricing": "",
                 "rationale": "Helps cover mortgage payments for up to 6 months if you lose your job involuntarily. Recommended for those with less job security.",
                 "priority": "Optional"
             })
@@ -863,6 +870,7 @@ def display_insurance_recommendations():
                 <h4>{coverage_type} Insurance</h4>
                 <p><strong>Recommended Coverage:</strong> ${rec['recommended_amount']:,.2f}</p>
                 <p><strong>Monthly Premium:</strong> ${rec['monthly_premium']:,.2f}</p>
+                <p>{rec['pricing']}</p>
                 <p>{rec['rationale']}</p>
             </div>
             """, unsafe_allow_html=True)
@@ -877,6 +885,7 @@ def display_insurance_recommendations():
                 <h4>{coverage_type} Insurance</h4>
                 <p><strong>Recommended Coverage:</strong> ${rec['recommended_amount']:,.2f}</p>
                 <p><strong>Monthly Premium:</strong> ${rec['monthly_premium']:,.2f}</p>
+                <p>{rec['pricing']}</p>
                 <p>{rec['rationale']}</p>
             </div>
             """, unsafe_allow_html=True)
@@ -891,6 +900,7 @@ def display_insurance_recommendations():
                 <h4>{coverage_type} Insurance</h4>
                 <p><strong>Recommended Coverage:</strong> ${rec['recommended_amount']:,.2f}</p>
                 <p><strong>Monthly Premium:</strong> ${rec['monthly_premium']:,.2f}</p>
+                <p>{rec['pricing']}</p>
                 <p>{rec['rationale']}</p>
             </div>
             """, unsafe_allow_html=True)
