@@ -239,7 +239,7 @@ def retrieve_relevant_chunks(query, top_k=5):
             "You can ask me about mortgage terms, insurance eligibility, or payment calculations, and I'll do my best to assist you."
         ]
 
-def generate_response(query, relevant_docs, max_context_length=3000):
+def generate_response(query, relevant_docs, max_context_length=3000, user_info = ""):
     """Generate a response using OpenAI"""
     if not relevant_docs:
         return "I don't have enough information to answer that question. Please provide more context."
@@ -256,6 +256,9 @@ def generate_response(query, relevant_docs, max_context_length=3000):
     prompt = f"""
 Context:
 {context}
+
+User information:
+{user_info}
 
 Question: {query}
 """
@@ -465,5 +468,6 @@ def calculate_insurance_premium(age, coverage_amount, coverage_type, joint=False
     
     # Calculate premium
     premium = (coverage_amount / 1000) * rate
+    premium = rate
     
     return round(premium, 2)
